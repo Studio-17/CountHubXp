@@ -41,7 +41,7 @@ It actually support:
 
 #### Firefox
 
-- Paste "about:debugging#/runtime/this-firefox" in your url.
+- Paste ```about:debugging#/runtime/this-firefox``` in your url.
 
 - Load Temporary Add-on
 
