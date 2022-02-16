@@ -223,7 +223,7 @@ const getXp = async () => {
     value.innerHTML =
         lang === 'fr' ? `Total XP Validatés: ${me.nbXps} / En Cours: ${me.nbXpsSoon}` : `Total XP Validated: ${me.nbXps} / In progress: ${me.nbXpsSoon}`;
     value2.innerHTML =
-        lang === 'fr' ? `Talks: ${me.TalknbXps} / Workshops: ${me.WorknbXps}<br>Autres: ${(me.ExpnbXps + me.HacknbXps)}` : `Talks: ${me.TalknbXps} / Workshops: ${(me.WorknbXps / 2)}<br>Others: ${((me.ExpnbXps / 3) + (me.HacknbXps / 6))}`;
+        lang === 'fr' ? `Talks: ${me.TalknbXps} / Workshops: ${me.WorknbXps}<br>Experiences: ${(me.ExpnbXps / 3)} / Hackathons: ${(me.HacknbXps / 6)}` : `Talks: ${me.TalknbXps} / Workshops: ${(me.WorknbXps / 2)}<br>Experiences: ${(me.ExpnbXps / 3)} / Hackathons: ${(me.HacknbXps / 6)}`;
 };
 
 const insertAfter = (newNode, referenceNode) => {
