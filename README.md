@@ -2,9 +2,9 @@
 
 # CountHubXp
 
-Add a counter for your hub's experiences on the [intra](https://intra.epitech.eu/user/*)
+> Add a counter for your hub's experiences on the [intra](https://intra.epitech.eu/user/*)
 
-This extension was forked from this [repository](https://github.com/NialaH/intraxphub_chromemade) created by [Maxime Gravin](https://github.com/NialaH).
+This extension was forked from this [repository](https://github.com/NialaH/intraxphub_chromemade) already forked by [Maxime Gravin](https://github.com/NialaH).
 
 ![alt text](counthubxp.png)
 

@@ -47,7 +47,7 @@ const xpAct = [
     },
 ];
 
-const me = { nbXps: 0, nbXpsSoon: 0, present: [], absent: [], soon: [], TalknbXps: 0, WorknbXps: 0, HacknbXps: 0, ExpnbXps: 0, TalknbXpsSoon: 0, WorknbXpsSoon: 0, HacknbXpsSoon: 0, ExpnbXpsSoon: 0 };
+const me = { nbXps: 0, nbXpsSoon: 0, present: [], absent: [], soon: [], TalknbXps: 0, WorknbXps: 0, HacknbXps: 0, ExpnbXps: 0, TalknbXpsOrg: 0, WorknbXpsOrg: 0, HacknbXpsOrg: 0, ExpnbXpsOrg: 0 };
 
 const requestGet = async (url) => {
     let data;
@@ -105,48 +105,33 @@ const sortDate = (a, b) => {
     return dateA - dateB;
 };
 
-const checkActivity = (type, xpPart) => {
+const checkActivityPart = (type) => {
     if (type == 'Talk') {
-        me.TalknbXps += xpPart;
+        me.TalknbXps += 1;
     }
     if (type == 'Workshop') {
-        me.WorknbXps += xpPart;
+        me.WorknbXps += 1;
     }
     if (type == 'Hackathon') {
-        me.HacknbXps += xpPart;
+        me.HacknbXps += 1;
     }
     if (type == 'Experience') {
-        me.ExpnbXps += xpPart;
+        me.ExpnbXps += 1;
     }
 }
 
-const checkActivitySoon = (type, date) => {
+const checkActivityOrg = (type) => {
     if (type == 'Talk') {
-        me.TalknbXpsSoon += 1;
+        me.TalknbXps += 1;
     }
     if (type == 'Workshop') {
-        me.WorknbXpsSoon += 3;
+        me.WorknbXps += 1;
     }
     if (type == 'Hackathon') {
-        me.HacknbXpsSoon += 6;
+        me.HacknbXps += 1;
     }
     if (type == 'Experience') {
-        me.ExpnbXpsSoon += 3;
-    }
-}
-
-const checkLostActivity = (type, xpLostPart) => {
-    if (type == 'Talk') {
-        me.TalknbXps -= xpLostPart;
-    }
-    if (type == 'Workshop') {
-        me.WorknbXps -= xpLostPart;
-    }
-    if (type == 'Hackathon') {
-        me.HacknbXps -= xpLostPart;
-    }
-    if (type == 'Experience') {
-        me.ExpnbXps -= xpLostPart;
+        me.ExpnbXps += 1;
     }
 }
 
@@ -158,22 +143,20 @@ const addActivite = (title, type, status, date) => {
         case 'present':
             nbPart < limitPart && (me.nbXps += xpWinPart) && (findAct.nbPart += 1);
             me.present.push({ title, type, status, date });
-            checkActivity(type, xpWinPart);
+            checkActivityPart(type);
             break;
         case 'absent':
             me.nbXps -= xpLostPart;
             me.absent.push({ title, type, status, date });
-            checkLostActivity(type, xpLostPart);
 
             break;
         case 'organisateur':
             nbOrg < limitOrg && (me.nbXps += xpWinOrg) && (findAct.nbOrg += 1);
             me.present.push({ title, type, status: 'organisateur', date });
-            checkActivity(type, xpWinOrg);
+            checkActivityOrg(type);
             break;
         case 'soon':
             me.soon.push({ title, type, status: 'inscrit', date });
-            checkActivitySoon(type, date);
             break;
         default:
             break;
@@ -223,7 +206,8 @@ const getXp = async () => {
     value.innerHTML =
         lang === 'fr' ? `Total XP Validatés: ${me.nbXps} / En Cours: ${me.nbXpsSoon}` : `Total XP Validated: ${me.nbXps} / In progress: ${me.nbXpsSoon}`;
     value2.innerHTML =
-        lang === 'fr' ? `Talks: ${me.TalknbXps} / Workshops: ${me.WorknbXps}<br>Experiences: ${(me.ExpnbXps / 3)} / Hackathons: ${(me.HacknbXps / 6)}` : `Talks: ${me.TalknbXps} / Workshops: ${(me.WorknbXps / 2)}<br>Experiences: ${(me.ExpnbXps / 3)} / Hackathons: ${(me.HacknbXps / 6)}`;
+        lang === 'fr' ? `Talks-> Part: ${me.TalknbXps} / Org: ${me.TalknbXpsOrg}<br>Workshops-> Part: ${me.WorknbXps} / Org: ${me.WorknbXpsOrg}<br>Experiences-> Part: ${me.ExpnbXps} / Org: ${me.ExpnbXpsOrg}<br>Hackathons-> Part: ${me.HacknbXps} / Org: ${me.HacknbXpsOrg}` :
+        `Talks-> Part: ${me.TalknbXps} / Org: ${me.TalknbXpsOrg}<br>Workshops-> Part: ${me.WorknbXps} / Org: ${me.WorknbXpsOrg}<br>Experiences-> Part: ${me.ExpnbXps} / Org: ${me.ExpnbXpsOrg}<br>Hackathons-> Part: ${me.HacknbXps} / Org: ${me.HacknbXpsOrg}`;
 };
 
 const insertAfter = (newNode, referenceNode) => {
