@@ -47,7 +47,7 @@ const xpAct = [
     },
 ];
 
-const me = { nbXps: 0, nbXpsSoon: 0, present: [], absent: [], soon: [], TalknbXps: 0, WorknbXps: 0, HacknbXps: 0, ExpnbXps: 0, TalknbXpsOrg: 0, WorknbXpsOrg: 0, HacknbXpsOrg: 0, ExpnbXpsOrg: 0 };
+const me = { nbXps: 0, nbXpsSoon: 0, present: [], absent: [], soon: [], TalknbXps: 0, WorknbXps: 0, HacknbXps: 0, ExpnbXps: 0, TalknbXpsOrg: 0, WorknbXpsOrg: 0, HacknbXpsOrg: 0, ExpnbXpsOrg: 0, TalknbXpsAbs: 0, WorknbXpsAbs: 0, HacknbXpsAbs: 0, ExpnbXpsAbs: 0, TalknbXpsSoon: 0, WorknbXpsSoon: 0, HacknbXpsSoon: 0, ExpnbXpsSoon: 0 };
 
 const requestGet = async (url) => {
     let data;
@@ -135,6 +135,36 @@ const checkActivityOrg = (type) => {
     }
 }
 
+const checkActivityAbs = (type) => {
+    if (type == 'Talk') {
+        me.TalknbXpsAbs += 1;
+    }
+    if (type == 'Workshop') {
+        me.WorknbXpsAbs += 1;
+    }
+    if (type == 'Hackathon') {
+        me.HacknbXpsAbs += 1;
+    }
+    if (type == 'Experience') {
+        me.ExpnbXpsAbs += 1;
+    }
+}
+
+const checkActivitySoon = (type) => {
+    if (type == 'Talk') {
+        me.TalknbXpsSoon += 1;
+    }
+    if (type == 'Workshop') {
+        me.WorknbXpsSoon += 1;
+    }
+    if (type == 'Hackathon') {
+        me.HacknbXpsSoon += 1;
+    }
+    if (type == 'Experience') {
+        me.ExpnbXpsSoon += 1;
+    }
+}
+
 const addActivite = (title, type, status, date) => {
     const findAct = xpAct.find((act) => act.name === type);
     const { limitPart, xpWinPart, xpWinOrg, nbPart, xpLostPart, nbOrg, limitOrg } = findAct;
@@ -148,6 +178,7 @@ const addActivite = (title, type, status, date) => {
         case 'absent':
             me.nbXps -= xpLostPart;
             me.absent.push({ title, type, status, date });
+            checkActivityAbs(type);
 
             break;
         case 'organisateur':
@@ -157,6 +188,7 @@ const addActivite = (title, type, status, date) => {
             break;
         case 'soon':
             me.soon.push({ title, type, status: 'inscrit', date });
+            checkActivitySoon(type);
             break;
         default:
             break;
@@ -211,32 +243,42 @@ const getXp = async () => {
     
     <table style="float:right">
       <tr>
-        <td colspan="3" align="center">Description Hub Xp</td>
+        <td colspan="5" align="center">Description Hub Xp</td>
       </tr>
       <tr>
         <th align="center"><strong>Type</strong></th>
         <th align="center"><strong>Participations</strong></th>
         <th align="center"><strong>Organisations</strong></th>
+        <th align="center"><strong>Absences</strong></th>
+        <th align="center"><strong>Soon</strong></th>
       </tr>
       <tr>
         <th align="left">Talks</th>
         <th align="center">${me.TalknbXps}</th>
         <th align="center">${me.TalknbXpsOrg}</th>
+        <th align="center">${me.TalknbXpsAbs}</th>
+        <th align="center">${me.TalknbXpsSoon}</th>
       </tr>
       <tr>
         <th align="left">Workshops</th>
         <th align="center">${me.WorknbXps}</th>
         <th align="center">${me.WorknbXpsOrg}</th>
+        <th align="center">${me.WorknbXpsAbs}</th>
+        <th align="center">${me.WorknbXpsSoon}</th>
       </tr>
       <tr>
         <th align="left">Hackathons</th>
         <th align="center">${me.HacknbXps}</th>
         <th align="center">${me.HacknbXpsOrg}</th>
+        <th align="center">${me.HacknbXpsAbs}</th>
+        <th align="center">${me.HacknbXpsSoon}</th>
       </tr>
       <tr>
         <th align="left">Experiences</th>
         <th align="center">${me.ExpnbXps}</th>
         <th align="center">${me.ExpnbXpsOrg}</th>
+        <th align="center">${me.ExpnbXpsAbs}</th>
+        <th align="center">${me.ExpnbXpsSoon}</th>
       </tr>
     </table>
     </body>`;
