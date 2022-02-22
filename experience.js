@@ -122,16 +122,16 @@ const checkActivityPart = (type) => {
 
 const checkActivityOrg = (type) => {
     if (type == 'Talk') {
-        me.TalknbXps += 1;
+        me.TalknbXpsOrg += 1;
     }
     if (type == 'Workshop') {
-        me.WorknbXps += 1;
+        me.WorknbXpsOrg += 1;
     }
     if (type == 'Hackathon') {
-        me.HacknbXps += 1;
+        me.HacknbXpsOrg += 1;
     }
     if (type == 'Experience') {
-        me.ExpnbXps += 1;
+        me.ExpnbXpsOrg += 1;
     }
 }
 
@@ -204,10 +204,42 @@ const getXp = async () => {
     countXpSoon();
 
     value.innerHTML =
-        lang === 'fr' ? `Total XP Validatés: ${me.nbXps} / En Cours: ${me.nbXpsSoon}` : `Total XP Validated: ${me.nbXps} / In progress: ${me.nbXpsSoon}`;
-    value2.innerHTML =
-        lang === 'fr' ? `Talks-> Part: ${me.TalknbXps} / Org: ${me.TalknbXpsOrg}<br>Workshops-> Part: ${me.WorknbXps} / Org: ${me.WorknbXpsOrg}<br>Experiences-> Part: ${me.ExpnbXps} / Org: ${me.ExpnbXpsOrg}<br>Hackathons-> Part: ${me.HacknbXps} / Org: ${me.HacknbXpsOrg}` :
-        `Talks-> Part: ${me.TalknbXps} / Org: ${me.TalknbXpsOrg}<br>Workshops-> Part: ${me.WorknbXps} / Org: ${me.WorknbXpsOrg}<br>Experiences-> Part: ${me.ExpnbXps} / Org: ${me.ExpnbXpsOrg}<br>Hackathons-> Part: ${me.HacknbXps} / Org: ${me.HacknbXpsOrg}`;
+        lang === 'fr' ? `Total XP Validés: ${me.nbXps} / En Cours: ${me.nbXpsSoon}` : `Total XP Validated: ${me.nbXps} / In progress: ${me.nbXpsSoon}`;
+    description.innerHTML = `<head>
+    </head>
+    <body>
+    
+    <table style="float:right">
+      <tr>
+        <td colspan="3" align="center">Description Hub Xp</td>
+      </tr>
+      <tr>
+        <th align="center"><strong>Type</strong></th>
+        <th align="center"><strong>Participations</strong></th>
+        <th align="center"><strong>Organisations</strong></th>
+      </tr>
+      <tr>
+        <th align="left">Talks</th>
+        <th align="center">${me.TalknbXps}</th>
+        <th align="center">${me.TalknbXpsOrg}</th>
+      </tr>
+      <tr>
+        <th align="left">Workshops</th>
+        <th align="center">${me.WorknbXps}</th>
+        <th align="center">${me.WorknbXpsOrg}</th>
+      </tr>
+      <tr>
+        <th align="left">Hackathons</th>
+        <th align="center">${me.HacknbXps}</th>
+        <th align="center">${me.HacknbXpsOrg}</th>
+      </tr>
+      <tr>
+        <th align="left">Experiences</th>
+        <th align="center">${me.ExpnbXps}</th>
+        <th align="center">${me.ExpnbXpsOrg}</th>
+      </tr>
+    </table>
+    </body>`;
 };
 
 const insertAfter = (newNode, referenceNode) => {
@@ -227,23 +259,18 @@ function getCookie(name) {
     if (parts.length === 2) return parts.pop().split(';').shift();
 }
 
+let description = document.getElementsByClassName('item course')[0];
 const lang = getCookie('language');
-
 const neartag = findElemByText('label', 'G.P.A.', XPathResult.FIRST_ORDERED_NODE_TYPE)?.singleNodeValue;
-
 const title = document.createElement('label');
-title.innerHTML = 'HUB XP';
-const description = document.createElement('label');
-description.innerHTML = 'DESCRIPTION';
 const value = document.createElement('span');
+
+description.classList.add("extension");
 value.classList.add('value');
-const value2 = document.createElement('span');
-value2.classList.add('value');
-value.innerHTML = lang === 'fr' ? 'Chargement...' : 'Loading...';
-value2.innerHTML = lang === 'fr' ? 'Chargement...' : 'Loading...';
+title.innerHTML = 'HUB XP';
+value.innerHTML = lang === 'fr' ? 'Chargement Total...' : 'Loading Total...';
+description.innerHTML = `<strong>Loading Description...</strong>`;
 insertAfter(title, neartag.nextElementSibling);
 insertAfter(value, title);
-insertAfter(description, value);
-insertAfter(value2, description);
 
 getXp();
