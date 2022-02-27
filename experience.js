@@ -111,27 +111,34 @@ const sortDate = (a, b) => {
 
 const checkActivityPart = (type) => {
     if (type == 'Talk') {
-        v.TalknbXps += 1;
+        if (v.TalknbXps < 15)
+            v.TalknbXps += 1;
     }
     if (type == 'Workshop') {
-        v.WorknbXps += 1;
+        if (v.WorknbXps < 10)
+            v.WorknbXps += 1;
     }
     if (type == 'Hackathon') {
-        v.HacknbXps += 1;
+        if (v.HacknbXps < 100)
+            v.HacknbXps += 1;
     }
     if (type == 'Experience') {
-        v.ExpnbXps += 1;
+        if (v.ExpnbXps < 8)
+            v.ExpnbXps += 1;
     }
 }
 
 const checkActivityOrg = (type) => {
     if (type == 'Talk') {
-        o.TalknbXpsOrg += 1;
+        if (o.TalknbXpsOrg < 6)
+            o.TalknbXpsOrg += 1;
     }
     if (type == 'Workshop') {
-        o.WorknbXpsOrg += 1;
+        if (o.WorknbXpsOrg < 3)
+            o.WorknbXpsOrg += 1;
     }
     if (type == 'Hackathon') {
+        if (o.HacknbXpsOrg < 100)
         o.HacknbXpsOrg += 1;
     }
     if (type == 'Experience') {
@@ -259,29 +266,29 @@ const getXp = async () => {
       </tr>
       <tr>
         <th align="left">Talks</th>
-        <th align="center">${v.TalknbXps}/15Xp (${v.TalknbXps})</th>
-        <th align="center">${o.TalknbXpsOrg * 4}/6Xp (${o.TalknbXpsOrg})</th>
+        <th align="center">${v.TalknbXps}Xp (${v.TalknbXps}/15)</th>
+        <th align="center">${o.TalknbXpsOrg * 4}Xp (${o.TalknbXpsOrg}/6)</th>
         <th align="center">${a.TalknbXpsAbs}Xp</th>
         <th align="center">${s.TalknbXpsSoon}Xp</th>
       </tr>
       <tr>
         <th align="left">Workshops</th>
-        <th align="center">${v.WorknbXps * 2}/10Xp (${v.WorknbXps})</th>
-        <th align="center">${o.WorknbXpsOrg * 7}/3Xp (${o.WorknbXpsOrg})</th>
+        <th align="center">${v.WorknbXps * 2}Xp (${v.WorknbXps}/10)</th>
+        <th align="center">${o.WorknbXpsOrg * 7}Xp (${o.WorknbXpsOrg}/3)</th>
         <th align="center">${a.WorknbXpsAbs}Xp</th>
         <th align="center">${s.WorknbXpsSoon}Xp</th>
       </tr>
       <tr>
         <th align="left">Hackathons</th>
-        <th align="center">${v.HacknbXps * 6}/100Xp (${v.HacknbXps})</th>
-        <th align="center">${o.HacknbXpsOrg * 15}/100Xp (${o.HacknbXpsOrg})</th>
+        <th align="center">${v.HacknbXps * 6}Xp (${v.HacknbXps}/100)</th>
+        <th align="center">${o.HacknbXpsOrg * 15}Xp (${o.HacknbXpsOrg}/100)</th>
         <th align="center">${a.HacknbXpsAbs}Xp</th>
         <th align="center">${s.HacknbXpsSoon}Xp</th>
       </tr>
       <tr>
         <th align="left">Experiences</th>
-        <th align="center">${v.ExpnbXps * 3}/8Xp (${v.ExpnbXps})</th>
-        <th align="center">${o.ExpnbXpsOrg}/∞Xp (${o.ExpnbXpsOrg})</th>
+        <th align="center">${v.ExpnbXps * 3}Xp (${v.ExpnbXps}/8)</th>
+        <th align="center">${o.ExpnbXpsOrg}Xp (${o.ExpnbXpsOrg}/∞)</th>
         <th align="center">${a.ExpnbXpsAbs}Xp</th>
         <th align="center">${s.ExpnbXpsSoon}Xp</th>
       </tr>
