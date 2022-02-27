@@ -47,7 +47,11 @@ const xpAct = [
     },
 ];
 
-const me = { nbXps: 0, nbXpsSoon: 0, present: [], absent: [], soon: [], TalknbXps: 0, WorknbXps: 0, HacknbXps: 0, ExpnbXps: 0, TalknbXpsOrg: 0, WorknbXpsOrg: 0, HacknbXpsOrg: 0, ExpnbXpsOrg: 0, TalknbXpsAbs: 0, WorknbXpsAbs: 0, HacknbXpsAbs: 0, ExpnbXpsAbs: 0, TalknbXpsSoon: 0, WorknbXpsSoon: 0, HacknbXpsSoon: 0, ExpnbXpsSoon: 0 };
+const me = { nbXps: 0, nbXpsSoon: 0, present: [], absent: [], soon: [] };
+const v = { TalknbXps: 0, WorknbXps: 0, HacknbXps: 0, ExpnbXps: 0 };
+const o = { TalknbXpsOrg: 0, WorknbXpsOrg: 0, HacknbXpsOrg: 0, ExpnbXpsOrg: 0 };
+const a = { TalknbXpsAbs: 0, WorknbXpsAbs: 0, HacknbXpsAbs: 0, ExpnbXpsAbs: 0 };
+const s = { TalknbXpsSoon: 0, WorknbXpsSoon: 0, HacknbXpsSoon: 0, ExpnbXpsSoon: 0 };
 
 const requestGet = async (url) => {
     let data;
@@ -107,61 +111,61 @@ const sortDate = (a, b) => {
 
 const checkActivityPart = (type) => {
     if (type == 'Talk') {
-        me.TalknbXps += 1;
+        v.TalknbXps += 1;
     }
     if (type == 'Workshop') {
-        me.WorknbXps += 1;
+        v.WorknbXps += 1;
     }
     if (type == 'Hackathon') {
-        me.HacknbXps += 1;
+        v.HacknbXps += 1;
     }
     if (type == 'Experience') {
-        me.ExpnbXps += 1;
+        v.ExpnbXps += 1;
     }
 }
 
 const checkActivityOrg = (type) => {
     if (type == 'Talk') {
-        me.TalknbXpsOrg += 1;
+        o.TalknbXpsOrg += 1;
     }
     if (type == 'Workshop') {
-        me.WorknbXpsOrg += 1;
+        o.WorknbXpsOrg += 1;
     }
     if (type == 'Hackathon') {
-        me.HacknbXpsOrg += 1;
+        o.HacknbXpsOrg += 1;
     }
     if (type == 'Experience') {
-        me.ExpnbXpsOrg += 1;
+        o.ExpnbXpsOrg += 1;
     }
 }
 
-const checkActivityAbs = (type) => {
+const checkActivityAbs = (type, xpLostPart) => {
     if (type == 'Talk') {
-        me.TalknbXpsAbs += 1;
+        a.TalknbXpsAbs += xpLostPart;
     }
     if (type == 'Workshop') {
-        me.WorknbXpsAbs += 1;
+        a.WorknbXpsAbs += xpLostPart;
     }
     if (type == 'Hackathon') {
-        me.HacknbXpsAbs += 1;
+        a.HacknbXpsAbs += xpLostPart;
     }
     if (type == 'Experience') {
-        me.ExpnbXpsAbs += 1;
+        a.ExpnbXpsAbs += xpLostPart;
     }
 }
 
-const checkActivitySoon = (type) => {
+const checkActivitySoon = (type, xpWinPart) => {
     if (type == 'Talk') {
-        me.TalknbXpsSoon += 1;
+        s.TalknbXpsSoon += xpWinPart;
     }
     if (type == 'Workshop') {
-        me.WorknbXpsSoon += 1;
+        s.WorknbXpsSoon += xpWinPart;
     }
     if (type == 'Hackathon') {
-        me.HacknbXpsSoon += 1;
+        s.HacknbXpsSoon += xpWinPart;
     }
     if (type == 'Experience') {
-        me.ExpnbXpsSoon += 1;
+        s.ExpnbXpsSoon += xpWinPart;
     }
 }
 
@@ -178,7 +182,7 @@ const addActivite = (title, type, status, date) => {
         case 'absent':
             me.nbXps -= xpLostPart;
             me.absent.push({ title, type, status, date });
-            checkActivityAbs(type);
+            checkActivityAbs(type, xpLostPart);
 
             break;
         case 'organisateur':
@@ -188,7 +192,7 @@ const addActivite = (title, type, status, date) => {
             break;
         case 'soon':
             me.soon.push({ title, type, status: 'inscrit', date });
-            checkActivitySoon(type);
+            //checkActivitySoon(type);
             break;
         default:
             break;
@@ -200,6 +204,7 @@ const countXpSoon = () => {
         const findAct = xpAct.find((elem) => elem.name === act.type);
         const { xpWinPart, limitPart, nbPart } = findAct;
         nbPart < limitPart && (me.nbXpsSoon += xpWinPart) && findAct.nbPart++;
+        checkActivitySoon(type, xpWinPart);
     });
 };
 
@@ -243,42 +248,42 @@ const getXp = async () => {
     
     <table style="float:right">
       <tr>
-        <td colspan="5" align="center">Description Hub Xp</td>
+        <td colspan="4" align="center">Description Hub Xp</td>
       </tr>
       <tr>
         <th align="center"><strong>Type</strong></th>
-        <th align="center"><strong>Participations</strong></th>
+        <th align="center"><strong>Validations</strong></th>
         <th align="center"><strong>Organisations</strong></th>
         <th align="center"><strong>Absences</strong></th>
         <th align="center"><strong>Soon</strong></th>
       </tr>
       <tr>
         <th align="left">Talks</th>
-        <th align="center">${me.TalknbXps}</th>
-        <th align="center">${me.TalknbXpsOrg}</th>
-        <th align="center">${me.TalknbXpsAbs}</th>
-        <th align="center">${me.TalknbXpsSoon}</th>
+        <th align="center">${v.TalknbXps}/15Xp (${v.TalknbXps})</th>
+        <th align="center">${o.TalknbXpsOrg * 4}/6Xp (${o.TalknbXpsOrg})</th>
+        <th align="center">${a.TalknbXpsAbs}Xp</th>
+        <th align="center">${s.TalknbXpsSoon}Xp</th>
       </tr>
       <tr>
         <th align="left">Workshops</th>
-        <th align="center">${me.WorknbXps}</th>
-        <th align="center">${me.WorknbXpsOrg}</th>
-        <th align="center">${me.WorknbXpsAbs}</th>
-        <th align="center">${me.WorknbXpsSoon}</th>
+        <th align="center">${v.WorknbXps * 2}/10Xp (${v.WorknbXps})</th>
+        <th align="center">${o.WorknbXpsOrg * 7}/3Xp (${o.WorknbXpsOrg})</th>
+        <th align="center">${a.WorknbXpsAbs}Xp</th>
+        <th align="center">${s.WorknbXpsSoon}Xp</th>
       </tr>
       <tr>
         <th align="left">Hackathons</th>
-        <th align="center">${me.HacknbXps}</th>
-        <th align="center">${me.HacknbXpsOrg}</th>
-        <th align="center">${me.HacknbXpsAbs}</th>
-        <th align="center">${me.HacknbXpsSoon}</th>
+        <th align="center">${v.HacknbXps * 6}/100Xp (${v.HacknbXps})</th>
+        <th align="center">${o.HacknbXpsOrg * 15}/100Xp (${o.HacknbXpsOrg})</th>
+        <th align="center">${a.HacknbXpsAbs}Xp</th>
+        <th align="center">${s.HacknbXpsSoon}Xp</th>
       </tr>
       <tr>
         <th align="left">Experiences</th>
-        <th align="center">${me.ExpnbXps}</th>
-        <th align="center">${me.ExpnbXpsOrg}</th>
-        <th align="center">${me.ExpnbXpsAbs}</th>
-        <th align="center">${me.ExpnbXpsSoon}</th>
+        <th align="center">${v.ExpnbXps * 3}/8Xp (${v.ExpnbXps})</th>
+        <th align="center">${o.ExpnbXpsOrg}/∞Xp (${o.ExpnbXpsOrg})</th>
+        <th align="center">${a.ExpnbXpsAbs}Xp</th>
+        <th align="center">${s.ExpnbXpsSoon}Xp</th>
       </tr>
     </table>
     </body>`;
@@ -301,9 +306,9 @@ function getCookie(name) {
     if (parts.length === 2) return parts.pop().split(';').shift();
 }
 
+const neartag = findElemByText('label', 'G.P.A.', XPathResult.FIRST_ORDERED_NODE_TYPE)?.singleNodeValue;
 let description = document.getElementsByClassName('item course')[0];
 const lang = getCookie('language');
-const neartag = findElemByText('label', 'G.P.A.', XPathResult.FIRST_ORDERED_NODE_TYPE)?.singleNodeValue;
 const title = document.createElement('label');
 const value = document.createElement('span');
 
